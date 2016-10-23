@@ -23,9 +23,10 @@ func main() {
 
 	indexStr := "test"
 	typeStr := "sub"
+	bodyStr := "{\"mappings\": {\"" + typeStr + "\": {\"_timestamp\": {\"enabled\": true}}}}"
 	// Create Index
 	if (elasticsearch.IndexExists(myParms,indexStr) == false) {
-		resp, _ = elasticsearch.AddIndexAutoDateTime(myParms, indexStr, typeStr)
+		resp, _ = elasticsearch.AddIndex(myParms, indexStr, bodyStr)
 		fmt.Println("Add Index " + indexStr + " Status " + string(resp.Status))
 	}
 
