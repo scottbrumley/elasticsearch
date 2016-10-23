@@ -1,8 +1,6 @@
 package elasticsearch
 
 import (
-	"fmt"
-	"os"
 	"flag"
 	"net/http"
 	"io/ioutil"
@@ -17,10 +15,6 @@ type ParamStruct struct{
 	Method string
 	Test bool
 	Url string
-}
-
-func showSyntax(){
-	fmt.Println("For Help " + os.Args[0] + " -h")
 }
 
 // Collect parameters from the command line
