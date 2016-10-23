@@ -11,30 +11,21 @@ func main() {
 	fmt.Println("")
 	myParms := elasticsearch.GetParams()
 
-	fmt.Println("Test Connection ...")
+	fmt.Println("     Test Connection ...")
 	resp, _ := elasticsearch.ConnectES(myParms)
 	if ( strings.Contains(resp.Status,"200") ){
-		fmt.Println("Connection Success")
+		fmt.Println("     Connection Success")
 		fmt.Println("")
 		//fmt.Println(respStr)
 	} else {
-		fmt.Println("Connection Failed " + resp.Status)
+		fmt.Println("     Connection Failed " + resp.Status)
 	}
 
 	indexStr := "wink"
-	fmt.Println("Test Index Exists ...")
+	fmt.Println("     Test Index Exists ...")
 	if (elasticsearch.IndexExists(myParms,indexStr)){
-		fmt.Println("Index " + indexStr + " exists")
+		fmt.Println("     Index " + indexStr + " exists")
 	} else {
-		fmt.Println("Index " + indexStr + " does not exists")
+		fmt.Println("     Index " + indexStr + " does not exists")
 	}
-
-	/*
-	myParms.Url = myParms.Url + "wink"
-	resp := indexExists(myParms)
-
-	if resp.Status == "404 Not Found"{
-		fmt.Println("Index Not Found")
-	}
-	*/
 }
