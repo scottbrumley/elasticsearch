@@ -43,7 +43,7 @@ func GetParams()(retParams ParamStruct){
 }
 
 // Authenticate to Wink API and pull back tokens
-func getURL(myParms ParamStruct)(res *http.Response){
+func getURL(myParms ParamStruct)(res *http.Response, retStr string){
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: myParms.SslIgnore},
 	}
@@ -52,8 +52,8 @@ func getURL(myParms ParamStruct)(res *http.Response){
 		Transport: tr,
 	}
 
-	fmt.Println(myParms.Url)
-	req, err := http.NewRequest("GET", myParms.Url, nil)
+	//fmt.Println(myParms.Url)
+	req, err := http.NewRequest(myParms.Method, myParms.Url, nil)
 	if ( (myParms.UserName != "") && (myParms.UserPass != "") ){
 		req.SetBasicAuth(myParms.UserName, myParms.UserPass)
 	}
@@ -61,35 +61,43 @@ func getURL(myParms ParamStruct)(res *http.Response){
 	resp, err := client.Do(req)
 
 	if err != nil {
-		fmt.Println(err)
+		return res, ""
 	} else {
 		defer resp.Body.Close()
 
-		fmt.Println("response Status:", resp.Status)
-		fmt.Println("response Headers:", resp.Header)
+		//fmt.Println("response Status:", resp.Status)
+		//fmt.Println("response Headers:", resp.Header)
 		body, _ := ioutil.ReadAll(resp.Body)
-		fmt.Println("response Body:", string(body))
+		//fmt.Println("response Body:", string(body))
+		retStr = string(body)
 		res = resp
 
 		//data := decodeDevices(string(body))
 		//fmt.Println(data)
-		fmt.Println(string(body))
+		return res, retStr
 	}
-	return res
 }
 
-func ConnectES(myParms ParamStruct){
-	fmt.Println("Connected")
-	getURL(myParms)
+func ConnectES(myParms ParamStruct)(resp *http.Response, respStr string){
+	resp, respStr = getURL(myParms)
+	return resp, respStr
 }
 
 func IndexExists(myParms ParamStruct, indexParm string)(bool){
-	fmt.Println("Checking Index")
 	myParms.Url = myParms.Url + "/" + indexParm
-	resp := getURL(myParms)
+	myParms.Method = "HEAD"
+	resp, _ := getURL(myParms)
 	if resp.Status == "404 Not Found"{
 		return false
 	} else {
 		return true
 	}
 }
+
+func DeleteIndex(myParms ParamStruct, indexParm string)(resp *http.Response, respStr string){
+	myParms.Url = myParms.Url + "/" + indexParm
+	myParms.Method = "DELETE"
+	resp, respStr = getURL(myParms)
+	return resp, respStr
+}
+
