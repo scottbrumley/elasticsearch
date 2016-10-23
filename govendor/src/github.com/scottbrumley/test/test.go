@@ -22,9 +22,10 @@ func main() {
 	}
 
 	indexStr := "test"
+	typeStr := "sub"
 	// Create Index
 	if (elasticsearch.IndexExists(myParms,indexStr) == false) {
-		resp, _ = elasticsearch.AddIndex(myParms, indexStr)
+		resp, _ = elasticsearch.AddIndexAutoDateTime(myParms, indexStr, typeStr)
 		fmt.Println("Add Index " + indexStr + " Status " + string(resp.Status))
 	}
 
@@ -37,6 +38,6 @@ func main() {
 	}
 
 	// Delete Index
-	resp, _ = elasticsearch.DeleteIndex(myParms,indexStr)
-	fmt.Println("Delete Index " + indexStr + " Status " + string(resp.Status))
+	//resp, _ = elasticsearch.DeleteIndex(myParms,indexStr)
+	//fmt.Println("Delete Index " + indexStr + " Status " + string(resp.Status))
 }
