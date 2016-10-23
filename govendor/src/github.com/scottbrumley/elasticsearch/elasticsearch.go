@@ -58,16 +58,11 @@ func getURL(myParms ParamStruct)(res *http.Response, retStr string){
 		return res, ""
 	} else {
 		defer resp.Body.Close()
-
-		//fmt.Println("response Status:", resp.Status)
-		//fmt.Println("response Headers:", resp.Header)
 		body, _ := ioutil.ReadAll(resp.Body)
-		//fmt.Println("response Body:", string(body))
 		retStr = string(body)
 		res = resp
 
 		//data := decodeDevices(string(body))
-		//fmt.Println(data)
 		return res, retStr
 	}
 }
