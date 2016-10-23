@@ -37,7 +37,7 @@ func GetParams()(retParams ParamStruct){
 	return retParams
 }
 
-// Authenticate to Wink API and pull back tokens
+// URL Fetching function
 func getURL(myParms ParamStruct, bodyStr string)(res *http.Response, retStr string){
 	var req *http.Request
 	var err error
@@ -75,11 +75,13 @@ func getURL(myParms ParamStruct, bodyStr string)(res *http.Response, retStr stri
 	}
 }
 
+// Connect to elastic search and return results plus HTTP status
 func ConnectES(myParms ParamStruct)(resp *http.Response, respStr string){
 	resp, respStr = getURL(myParms,"")
 	return resp, respStr
 }
 
+// Check that Index given exists and return true or false
 func IndexExists(myParms ParamStruct, indexParm string)(bool){
 	myParms.Url = myParms.Url + "/" + indexParm
 	myParms.Method = "HEAD"
@@ -91,6 +93,7 @@ func IndexExists(myParms ParamStruct, indexParm string)(bool){
 	}
 }
 
+// Delete the Index given and return response Status and any response body as a string
 func DeleteIndex(myParms ParamStruct, indexParm string)(resp *http.Response, respStr string){
 	myParms.Url = myParms.Url + "/" + indexParm
 	myParms.Method = "DELETE"
@@ -98,6 +101,7 @@ func DeleteIndex(myParms ParamStruct, indexParm string)(resp *http.Response, res
 	return resp, respStr
 }
 
+// Add the Index given and return response Status and any response body as a string
 func AddIndex(myParms ParamStruct, indexParm string)(resp *http.Response, respStr string){
 	//body := []byte("{\n  \"client_id\": \"" + myParms.ClientID + "\",\n  \"client_secret\": \"" + myParms.ClientSecret + "\",\n  \"username\": \"" + myParms.UserName + "\",\n  \"password\": \"" + myParms.UserPass + "\",\n  \"grant_type\": \"password\"\n}")
 	myParms.Url = myParms.Url + "/" + indexParm
@@ -106,3 +110,18 @@ func AddIndex(myParms ParamStruct, indexParm string)(resp *http.Response, respSt
 	return resp, respStr
 }
 
+func AddDocument(myParms ParamStruct, indexParm string)(resp *http.Response, respStr string){
+	//body := []byte("{\n  \"client_id\": \"" + myParms.ClientID + "\",\n  \"client_secret\": \"" + myParms.ClientSecret + "\",\n  \"username\": \"" + myParms.UserName + "\",\n  \"password\": \"" + myParms.UserPass + "\",\n  \"grant_type\": \"password\"\n}")
+	myParms.Url = myParms.Url + "/" + indexParm
+	myParms.Method = "PUT"
+	resp, respStr = getURL(myParms,"")
+	return resp, respStr
+}
+
+func AddIndexAutoDateTime (myParms ParamStruct, indexParm string, typeParm string)(resp *http.Response, respStr string){
+	body := "{\"mappings\": {\"" + typeParm + "\": {\"_timestamp\": {\"enabled\": true}}}}"
+	myParms.Url = myParms.Url + "/" + indexParm
+	myParms.Method = "PUT"
+	resp, respStr = getURL(myParms,body)
+	return resp, respStr
+}
