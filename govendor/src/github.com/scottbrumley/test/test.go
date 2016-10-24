@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/scottbrumley/elasticsearch"
 	"strings"
+	"io/ioutil"
 )
 
 func main() {
@@ -23,6 +24,7 @@ func main() {
 
 	indexStr := "test"
 	typeStr := "sub"
+	recStr := "251105"
 	bodyStr := "{\"mappings\": {\"" + typeStr + "\": {\"_timestamp\": {\"enabled\": true}}}}"
 	// Create Index
 	if (elasticsearch.IndexExists(myParms,indexStr) == false) {
@@ -37,6 +39,19 @@ func main() {
 	} else {
 		fmt.Println("     Index " + indexStr + " does not exists Status " + string(resp.Status))
 	}
+
+
+	// Read test document file and add document to Elastic Search
+	b, err := ioutil.ReadFile("./govendor/src/github.com/scottbrumley/test/test_rec.js") // just pass the file name
+	if err != nil {
+		fmt.Print(err)
+	}
+	str := string(b) // convert content to a 'string'
+	str = strings.Replace(str, " ","",-1)
+	str = strings.Replace(str, "\n","",-1)
+	str = strings.TrimSpace(str)
+	fmt.Println(str)
+	elasticsearch.AddDocument(myParms,indexStr,typeStr,recStr,str)
 
 	// Delete Index
 	//resp, _ = elasticsearch.DeleteIndex(myParms,indexStr)

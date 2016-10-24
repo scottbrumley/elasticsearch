@@ -109,10 +109,9 @@ func AddIndex(myParms ParamStruct, indexParm string, jsonStr string)(resp *http.
 	return resp, respStr
 }
 
-func AddDocument(myParms ParamStruct, indexParm string, jsonStr string)(resp *http.Response, respStr string){
-	//body := []byte("{\n  \"client_id\": \"" + myParms.ClientID + "\",\n  \"client_secret\": \"" + myParms.ClientSecret + "\",\n  \"username\": \"" + myParms.UserName + "\",\n  \"password\": \"" + myParms.UserPass + "\",\n  \"grant_type\": \"password\"\n}")
-	myParms.Url = myParms.Url + "/" + indexParm
+func AddDocument(myParms ParamStruct, indexParm string, typeParm string, recParm string, jsonStr string)(resp *http.Response, respStr string){
+	myParms.Url = myParms.Url + "/" + indexParm + "/" + typeParm + "/" + recParm
 	myParms.Method = "PUT"
-	resp, respStr = getURL(myParms,"")
+	resp, respStr = getURL(myParms,jsonStr)
 	return resp, respStr
 }
