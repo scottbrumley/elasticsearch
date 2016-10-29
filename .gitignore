@@ -73,4 +73,3 @@ fabric.properties
 .idea
 govendor/bin
 govendor/pkg/
-test
