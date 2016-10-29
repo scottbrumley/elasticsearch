@@ -42,7 +42,7 @@ func main() {
 	}
 
 
-	// Read test document file and add document to Elastic Search
+	// Add Document: Read test document file and add document to Elastic Search
 	b, err := ioutil.ReadFile("./test/test_rec") // just pass the file name
 	if err != nil {
 		fmt.Print(err)
@@ -51,7 +51,7 @@ func main() {
 	str = strings.Replace(str, " ","",-1)
 	str = strings.Replace(str, "\n","",-1)
 	str = strings.TrimSpace(str)
-	fmt.Println(str)
+	//fmt.Println(str)
 	elasticsearch.AddDocument(myParms,indexStr,typeStr,recStr,str)
 
 
@@ -68,7 +68,37 @@ func main() {
 	fmt.Println(str)
 	elasticsearch.UpdateDocument(myParms,indexStr,typeStr,recStr,str)
 
+	// Get Document
+	respStatus,respStr := elasticsearch.GetDocument(myParms,indexStr,typeStr,recStr)
+	if (respStatus.StatusCode == 200) {
+		fmt.Println(respStr)
+	} else {
+		fmt.Println("Document Not found status code: " + respStatus.Status)
+	}
+
+	// Delete Document
+	respStatus,respStr = elasticsearch.DeleteDocument(myParms,indexStr,typeStr,recStr)
+	if (respStatus.StatusCode == 200) {
+		fmt.Println(respStr)
+	} else {
+		fmt.Println("Document Not found status code: " + respStatus.Status)
+	}
+
+	// Get Document
+	respStatus,respStr = elasticsearch.GetDocument(myParms,indexStr,typeStr,recStr)
+	if (respStatus.StatusCode == 200) {
+		fmt.Println(respStr)
+	} else {
+		fmt.Println("Document Not found status code: " + respStatus.Status)
+	}
+
+
 	// Delete Index
-	//resp, _ = elasticsearch.DeleteIndex(myParms,indexStr)
-	//fmt.Println("Delete Index " + indexStr + " Status " + string(resp.Status))
+	respStatus,respStr = elasticsearch.DeleteIndex(myParms,indexStr)
+	if (respStatus.StatusCode == 200) {
+		fmt.Println(respStr)
+	} else {
+		fmt.Println("Delete Index Failed: " + respStatus.Status)
+	}
+
 }
