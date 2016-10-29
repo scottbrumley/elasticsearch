@@ -9,3 +9,8 @@ export GOPATH=<project base directory>
 ```
 go run main.go -url http://localhost:9200
 ```
+
+## Build Package
+```
+./scripts/cibuild.sh
+```
