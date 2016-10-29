@@ -43,7 +43,7 @@ func main() {
 
 
 	// Read test document file and add document to Elastic Search
-	b, err := ioutil.ReadFile("./test/test_rec.js") // just pass the file name
+	b, err := ioutil.ReadFile("./test/test_rec") // just pass the file name
 	if err != nil {
 		fmt.Print(err)
 	}
@@ -53,6 +53,20 @@ func main() {
 	str = strings.TrimSpace(str)
 	fmt.Println(str)
 	elasticsearch.AddDocument(myParms,indexStr,typeStr,recStr,str)
+
+
+	//Update Document
+	// Read test document file and add document to Elastic Search
+	b, err = ioutil.ReadFile("./test/updatetext") // just pass the file name
+	if err != nil {
+		fmt.Print(err)
+	}
+	str = string(b) // convert content to a 'string'
+	str = strings.Replace(str, " ","",-1)
+	str = strings.Replace(str, "\n","",-1)
+	str = strings.TrimSpace(str)
+	fmt.Println(str)
+	elasticsearch.UpdateDocument(myParms,indexStr,typeStr,recStr,str)
 
 	// Delete Index
 	//resp, _ = elasticsearch.DeleteIndex(myParms,indexStr)
