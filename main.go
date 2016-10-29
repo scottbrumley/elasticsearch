@@ -51,9 +51,15 @@ func main() {
 	str = strings.Replace(str, " ","",-1)
 	str = strings.Replace(str, "\n","",-1)
 	str = strings.TrimSpace(str)
-	//fmt.Println(str)
 	elasticsearch.AddDocument(myParms,indexStr,typeStr,recStr,str)
 
+	// Get Document
+	respStatus,respStr := elasticsearch.GetDocument(myParms,indexStr,typeStr,recStr)
+	if (respStatus.StatusCode == 200) {
+		fmt.Println(respStr)
+	} else {
+		fmt.Println("Document Not found status code: " + respStatus.Status)
+	}
 
 	//Update Document
 	// Read test document file and add document to Elastic Search
@@ -65,11 +71,10 @@ func main() {
 	str = strings.Replace(str, " ","",-1)
 	str = strings.Replace(str, "\n","",-1)
 	str = strings.TrimSpace(str)
-	fmt.Println(str)
 	elasticsearch.UpdateDocument(myParms,indexStr,typeStr,recStr,str)
 
 	// Get Document
-	respStatus,respStr := elasticsearch.GetDocument(myParms,indexStr,typeStr,recStr)
+	respStatus,respStr = elasticsearch.GetDocument(myParms,indexStr,typeStr,recStr)
 	if (respStatus.StatusCode == 200) {
 		fmt.Println(respStr)
 	} else {
