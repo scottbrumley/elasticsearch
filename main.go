@@ -26,6 +26,7 @@ func main() {
 	typeStr := "sub"
 	recStr := "251105"
 	bodyStr := "{\"mappings\": {\"" + typeStr + "\": {\"_timestamp\": {\"enabled\": true}}}}"
+
 	// Create Index
 	if (elasticsearch.IndexExists(myParms,indexStr) == false) {
 		resp, _ = elasticsearch.AddIndex(myParms, indexStr, bodyStr)
@@ -42,7 +43,7 @@ func main() {
 
 
 	// Read test document file and add document to Elastic Search
-	b, err := ioutil.ReadFile("./govendor/src/github.com/scottbrumley/test/test_rec.js") // just pass the file name
+	b, err := ioutil.ReadFile("./test/test_rec.js") // just pass the file name
 	if err != nil {
 		fmt.Print(err)
 	}

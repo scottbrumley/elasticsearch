@@ -115,3 +115,10 @@ func AddDocument(myParms ParamStruct, indexParm string, typeParm string, recParm
 	resp, respStr = getURL(myParms,jsonStr)
 	return resp, respStr
 }
+
+func UpdateDocument(myParms ParamStruct, indexParm string, typeParm string, recParm string, jsonStr string)(resp *http.Response, respStr string){
+	myParms.Url = myParms.Url + "/" + indexParm + "/" + typeParm + "/" + recParm + "/_update"
+	myParms.Method = "POST"
+	resp, respStr = getURL(myParms,jsonStr)
+	return resp, respStr
+}
