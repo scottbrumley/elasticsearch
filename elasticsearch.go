@@ -111,7 +111,7 @@ func AddIndex(myParms ParamStruct, indexParm string, jsonStr string)(resp *http.
 
 func AddDocument(myParms ParamStruct, indexParm string, typeParm string, recParm string, jsonStr string)(resp *http.Response, respStr string){
 	if ( recParm == ""){
-		myParms.Url = myParms.Url + "/" + indexParm + "/" + typeParm
+		myParms.Url = myParms.Url + "/" + indexParm + "/" + typeParm + "/"
 	} else {
 		myParms.Url = myParms.Url + "/" + indexParm + "/" + typeParm + "/" + recParm
 	}
