@@ -57,7 +57,7 @@ func main() {
 
 	//Update Document
 	// Read test document file and add document to Elastic Search
-	b, err = ioutil.ReadFile("./test/updatetext") // just pass the file name
+	b, err = ioutil.ReadFile("./test/updatetest") // just pass the file name
 	if err != nil {
 		fmt.Print(err)
 	}
