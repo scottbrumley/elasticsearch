@@ -138,3 +138,15 @@ func GetDocument(myParms ParamStruct, indexParm string, typeParm string, recParm
 	resp, respStr = getURL(myParms,"")
 	return resp, respStr
 }
+
+// Check that Index given exists and return true or false
+func DocumentExists(myParms ParamStruct, indexParm string, docParm string)(bool){
+	myParms.Url = myParms.Url + "/" + indexParm + "/" + docParm
+	myParms.Method = "HEAD"
+	resp, _ := getURL(myParms,"")
+	if resp.Status == "404 Not Found"{
+		return false
+	} else {
+		return true
+	}
+}
