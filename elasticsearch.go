@@ -129,6 +129,13 @@ func UpdateDocument(myParms ParamStruct, indexParm string, typeParm string, recP
 	return resp, respStr
 }
 
+func AddDateDocument(myParms ParamStruct, indexParm string, typeParm string, recParm string, jsonStr string)(resp *http.Response, respStr string){
+	myParms.Url = myParms.Url + "/" + indexParm + "/" + typeParm + "/" + recParm + "/_update"
+	myParms.Method = "POST"
+	resp, respStr = getURL(myParms,jsonStr)
+	return resp, respStr
+}
+
 // Delete the Document given and return response Status and any response body as a string
 func DeleteDocument(myParms ParamStruct, indexParm string, typeParm string, recParm string)(resp *http.Response, respStr string){
 	myParms.Url = myParms.Url + "/" + indexParm + "/" + typeParm + "/" + recParm
